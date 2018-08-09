@@ -1,0 +1,43 @@
+﻿[toc]
+
+##- 作用：
+>Generate lattices using GMM-based model.
+>生成基于GMM模型的lattice词格）
+
+##- 用法：
+```
+Usage: gmm-latgen-faster [options] model-in (fst-in|fsts-rspecifier) features-rspecifier lattice-wspecifier [ words-wspecifier [alignments-wspecifier] ] 
+```
+##- 可选项及含义：
+```
+Options:
+  --acoustic-scale            : Scaling factor for acoustic likelihoods (float, default = 0.1)
+  --allow-partial             : If true, produce output even if end state was not reached. (bool, default = false)
+  --beam                      : Decoding beam.  Larger->slower, more accurate. (float, default = 16)
+  --beam-delta                : Increment used in decoding-- this parameter is obscure and relates to a speedup in the way the max-active constraint is applied.  Larger is more accurate. (float, default = 0.5)
+  --delta                     : Tolerance used in determinization (float, default = 0.000976562)
+  --determinize-lattice       : If true, determinize the lattice (lattice-determinization, keeping only best pdf-sequence for each word-sequence). (bool, default = true)
+  --hash-ratio                : Setting used in decoder to control hash behavior (float, default = 2)
+  --lattice-beam              : Lattice generation beam.  Larger->slower, and deeper lattices (float, default = 10)
+  --max-active                : Decoder max active states.  Larger->slower; more accurate (int, default = 2147483647)
+  --max-mem                   : Maximum approximate memory usage in determinization (real usage might be many times this). (int, default = 50000000)
+  --min-active                : Decoder minimum #active states. (int, default = 200)
+  --minimize                  : If true, push and minimize after determinization. (bool, default = false)
+  --phone-determinize         : If true, do an initial pass of determinization on both phones and words (see also --word-determinize) (bool, default = true)
+  --prune-interval            : Interval (in frames) at which to prune tokens (int, default = 25)
+  --word-determinize          : If true, do a second pass of determinization on words only (see also --phone-determinize) (bool, default = true)
+  --word-symbol-table         : Symbol table for words [for debug output] (string, default = "")
+
+Standard options:
+  --config                    : Configuration file to read (this option may be repeated) (string, default = "")
+  --help                      : Print out usage message (bool, default = false)
+  --print-args                : Print the command line arguments (to stderr) (bool, default = true)
+  --verbose                   : Verbose level (higher->more logging) (int, default = 0)
+```
+##- 使用实例：
+
+```
+gmm-latgen-faster --max-active=700 --beam=13 --lattice-beam=6 --acoustic-scale=0.1 --allow-partial=true --word-symbol-table=words.txt final.mdl HCLG.fst ark:delta.ark ark:lattice.ark
+```
+
+>转载请注明出处
